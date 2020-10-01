@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const accountSchema= new Schema({
+const Joi = require('Joi');
+var Accounts = mongoose.model('Promotion', new mongoose.Schema({
     username: {
         type: String,
         required: true
@@ -12,8 +11,13 @@ const accountSchema= new Schema({
     }
 }, {
     timestamps: true
-});
-
-var Accounts = mongoose.model('Promotion', accountSchema);
-
-module.exports = Accounts;
+}));
+function validate(Accounts){
+    const schema = Joi.object({
+        username: Joi.string().min(5).required(),
+        password: Joi.string().min(8).required()
+    })
+    return schema.validate(Accounts)
+}
+module.exports.validate = validate;
+module.exports.Accounts = Accounts;
