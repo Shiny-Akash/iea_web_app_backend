@@ -7,6 +7,7 @@ const accountRouter = express.Router();
 
 accountRouter.use(bodyParser.json());
 accountRouter.post('/signup', async (req,res) => {
+    console.log('this is signup ####################');
     const { username ,password} = req.body
     let user = await Accounts.findOne({username});
     if(user) return res.status(400).json({"message" :"User already exists!!"})
@@ -29,7 +30,7 @@ accountRouter.post("/login", async(req, res)=>{
     //let pass = user.password;
     let isMatch = await bcrypt.compare(password, user.password)
     if(!isMatch) return res.status(400).json({"message":"Incorrect Password"})
-    res.send({"message": "login successfull!!!"}) 
+    return res.json(user);
 })
 /* 
 accountRouter.route('/:account')

@@ -11,7 +11,7 @@ var usersRouter = require('./routes/users');
 var accountRouter = require('./routes/accountRouter');
 mongoose.connect('mongodb://localhost/Project')
   .then(() => console.log('Connected to MongoDB...'))
-  .catch(err => console.error('Could not connect to MongoDB...'));
+  .catch(err => console.error('Could not connect to MongoDB...'+err));
 
 var app = express();
 
