@@ -1,14 +1,14 @@
 var createError = require('http-errors');
 var express = require('express');
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
 var accountRouter = require('./routes/accountRouter');
+
 mongoose.connect('mongodb://localhost/Project')
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.error('Could not connect to MongoDB...'+err));
@@ -19,15 +19,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// add middlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// setup routing
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
 app.use('/accounts',accountRouter);
 
 // catch 404 and forward to error handler
@@ -47,8 +48,6 @@ app.use(function(err, req, res, next) {
 });
 
 var port = process.env.PORT || 8080;
-
-app.listen(port,() =>
-console.log(`Listening to ${port}`))
+app.listen(port, () => console.log(`Listening to ${port}`))
 
 module.exports = app;
