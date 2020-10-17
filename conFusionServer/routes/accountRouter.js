@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 const {Accounts , validate} = require('../models/accounts');
+const { token } = require('morgan');
 
 const accountRouter = express.Router();
 
@@ -30,42 +32,23 @@ accountRouter.post("/login", async(req, res)=>{
     //let pass = user.password;
     let isMatch = await bcrypt.compare(password, user.password)
     if(!isMatch) return res.status(400).json({"message":"Incorrect Password"})
-    return res.json(user);
-})
-/* 
-accountRouter.route('/:account')
-.get((req,res,next) => {
-    Accounts.find({})
-    .then((account) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(account);
-    }, (err) => next(err))
-    .catch((err) => next(err));
-})
-.put((req, res, next) => {
-    Accounts.findOneAndUpdate({username : req.params.account}, {
-        $set: req.body
-    }, { new: true })
-    .then((account) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(account);
-    }, (err) => next(err))
-    .catch((err) => next(err));
-}); */
-/* 
-accountRouter.route('/signup')
-.post((req, res, next) => {
-    Accounts.create(req.body)
-    .then((account) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(account);
-    }, (err) => next(err))
-    .catch((err) => next(err));
-});
- */
 
+    // return jwt
+    let token = jwt.sign({username: 'aaaaa'}, 'mysecret', { expiresIn: '1h'});
+    res.cookie('token', token)
+    res.json({"message": "login successful !"})
+})
 
+accountRouter.get("/:id", async (req, res) => {
+    let token = req.headers.authorization.split(' ')[1]
+    const decoded = jwt.verify(token, 'mysecret', (err, payload) => {
+        if (err) {
+            console.log(err)
+            return res.sendStatus(403);
+        }
+        console.log(payload, 'this is the username present in the token')
+
+        res.send('working..')
+    })
+})
 module.exports = accountRouter;
