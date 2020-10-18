@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const accountRouter = require('./routes/account');
 const forumRouter = require('./routes/discussionforum');
 const profileRouter = require('./routes/profile');
+const mailRouter = require('./services/emailVerification')
 
 mongoose.connect('mongodb://localhost/Project', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB...'))
@@ -34,6 +35,7 @@ app.use('/users', usersRouter);
 app.use('/accounts',accountRouter);
 app.use('/forum', forumRouter);
 app.use('/profile', profileRouter);
+app.use('/mail', mailRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
