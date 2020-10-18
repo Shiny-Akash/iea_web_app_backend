@@ -20,6 +20,14 @@ const profile = new Schema({
     emailid: {
         type: String,
         default: '',
+    },
+    emailVerificationDone: {
+        type: Boolean,
+        default: false
+    },
+    role: {
+        type: String,
+        default: null
     }
 })
 

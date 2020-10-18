@@ -10,4 +10,12 @@ profileRouter.get('/:username', authorise, (req, res) => {
     })
 })
 
+profileRouter.patch('/:username', authorise, (req, res) => {
+    let profile = req.body.profile;
+    console.log(profile)
+    Profile.updateOne({username: req.params.username}, profile, (err, data) => {
+        res.json({data});
+    })
+})
+
 module.exports = profileRouter;
