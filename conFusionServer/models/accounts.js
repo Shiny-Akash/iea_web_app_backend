@@ -14,8 +14,8 @@ var Accounts = mongoose.model('Accounts', new mongoose.Schema({
 }));
 function validate(Accounts){
     const schema = Joi.object({
-        username: Joi.string().min(5).required(),
-        password: Joi.string().min(8).required()
+        username: Joi.string().min(1).required(),
+        password: Joi.string().min(3).required()
     })
     return schema.validate(Accounts)
 }

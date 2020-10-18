@@ -23,7 +23,7 @@ accountRouter.post('/signup', async (req,res) => {
     account = await account.save();
 
     // create new profile and save
-    let profile = new Profile();
+    let profile = new Profile({username: username});
     profile = await profile.save();
 
     res.json({ message: 'signup successfull !' });
