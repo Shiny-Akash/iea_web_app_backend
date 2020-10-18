@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-var Accounts = mongoose.model('Promotion', new mongoose.Schema({
+var Accounts = mongoose.model('Accounts', new mongoose.Schema({
     username: {
         type: String,
         required: true

@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const {Accounts , validate} = require('../models/accounts');
-const authorise = require('../middlewares/auth');
+const { Profile } = require('../models/profile')
 
 const accountRouter = express.Router();
 
@@ -12,6 +12,8 @@ accountRouter.post('/signup', async (req,res) => {
     const { username ,password} = req.body
     let user = await Accounts.findOne({username});
     if(user) return res.status(400).json({"message" :"User already exists!!"})
+
+    // create new account and save
     let account = new Accounts({ 
         username: username,
         password: password
@@ -19,7 +21,12 @@ accountRouter.post('/signup', async (req,res) => {
     const salt = await bcrypt.genSalt(10);
     account.password = await bcrypt.hash(password,salt)    
     account = await account.save();
-    res.send(account);
+
+    // create new profile and save
+    let profile = new Profile();
+    profile = await profile.save();
+
+    res.json({ message: 'signup successfull !' });
 
 })
 accountRouter.post("/login", async(req, res)=>{
@@ -35,9 +42,4 @@ accountRouter.post("/login", async(req, res)=>{
     res.json({token, username});
 })
 
-accountRouter.get("/:id", authorise, async (req, res) => {
-    // this should return the posts for discussion forums 
-    // bcoz forum page will be the default page
-    res.json({ username: req.username });
-})
 module.exports = accountRouter;

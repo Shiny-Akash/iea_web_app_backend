@@ -8,7 +8,7 @@ const authorise = (req, res, next) => {
             return res.status(403).send(err.message);
         }
 
-        if (payload.username != req.params.id ){
+        if (payload.username != req.params.username ){
             return res.status(403).send('Not logged In !');
         }
 
