@@ -1,11 +1,11 @@
 var express = require('express');
-const { Accounts } = require('../_models/account');
+const { User } = require('../_models/user');
 
 var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  Accounts.find((err, data) => {
+  User.find({}, (err, data) => {
     if (err) {
       console.log(err);
       res.status(400).json({error: 'cannot find user accounts'})
