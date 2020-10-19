@@ -1,8 +1,15 @@
 const express = require('express');
 const authorise = require('../_middlewares/auth');
-const { Post, Like } = require('../_models/post');
+const { Post, Like, Comment } = require('../_models/post');
 
 const forumRouter = express.Router();
+
+// get public comments
+forumRouter.get("/comment", async (req, res) => {
+    await Comment.find({}, (err, data) => {
+        res.json(data);
+    })
+})
 
 // create post
 forumRouter.post('/:username', authorise, async (req, res) => {
@@ -59,6 +66,31 @@ forumRouter.post("/unlike/:username", authorise, async (req, res) => {
     await Like.deleteOne({ username });
 
     res.json({post})
+})
+
+// create comment 
+forumRouter.post("/comment/:username", authorise, async (req, res) => {
+    const username = req.params.username;
+    const { _id } = req.body.post;
+    const { body } = req.body.comment;
+
+    let post = await Post.findOne({ _id })
+    post.numcomments += 1;
+    await post.save();
+
+    let comment = new Comment({
+        postId: _id, username, body
+    });
+    await comment.save();
+
+    res.json({ comment })
+})
+
+// get user comments
+forumRouter.get("/comment/:username", authorise, async (req, res) => {
+    await Comment.find({ username: req.params.username }, (err, data) => {
+        res.json(data);
+    })
 })
 
 module.exports = forumRouter;

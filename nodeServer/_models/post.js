@@ -37,5 +37,21 @@ const Like = new Schema({
     }
 })
 
+const Comment = new Schema({
+    postId: {
+        type: Types.ObjectId,
+        required: true
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    body: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true })
+
 module.exports.Post = model('Post', Post);
-module.exports.Like = model('Like', Like)
+module.exports.Like = model('Like', Like);
+module.exports.Comment = model('Comment', Comment);
