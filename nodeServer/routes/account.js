@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const { Account } = require('../_models/account');
 const { Profile } = require('../_models/profile');
-const User = require('../_models/user');
+const { User } = require('../_models/user');
 
 const accountRouter = express.Router();
 
@@ -23,7 +23,7 @@ accountRouter.post('/signup', async (req,res) => {
     account = await account.save();
 
     // create new profile and save
-    let profile = new Profile();
+    let profile = new Profile({});
     profile = await profile.save();
 
     // create new user and save

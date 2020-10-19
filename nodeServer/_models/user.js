@@ -7,7 +7,7 @@ const User = new Schema({
     },
     accountId: {
         type: Types.ObjectId,
-        required: true
+        required: true,
     },
     profileId: {
         type: Types.ObjectId,
@@ -15,4 +15,4 @@ const User = new Schema({
     }
 }, { timestamps: true })
 
-module.exports = model('User', User);
+module.exports.User = model('User', User);
