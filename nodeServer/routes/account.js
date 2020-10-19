@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
-const { Account , validate } = require('../_models/account');
+const { Account } = require('../_models/account');
 const { Profile } = require('../_models/profile');
 const User = require('../_models/user');
 
@@ -32,20 +32,21 @@ accountRouter.post('/signup', async (req,res) => {
         accountId: account._id,
         profileId: profile._id
     })
+    await user.save()
 
     res.json({ message: 'signup successfull !' });
 
 })
 accountRouter.post("/login", async(req, res)=>{
-    const { error } = validate(req.body); 
-    if (error) return res.status(400).send(error.details[0].message);
-    const { username ,password} = req.body
-    let user = await Accounts.findOne({username});
+    const { username ,password } = req.body
+    let user = await User.findOne({ username });
     if(!user) return res.status(400).json({"message" :"User not found!!"})
-    let isMatch = await bcrypt.compare(password, user.password)
+
+    let account = await Account.findOne({ _id: user.accountId })
+    let isMatch = await bcrypt.compare(password, account.password)
     if(!isMatch) return res.status(400).json({"message":"Incorrect Password"})
 
-    let token = jwt.sign({username}, 'mysecret', { expiresIn: '1h'});
+    let token = jwt.sign({ username }, 'mysecret', { expiresIn: '1h'});
     res.json({token, username});
 })
 
