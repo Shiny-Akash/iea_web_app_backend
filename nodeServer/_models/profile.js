@@ -1,10 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const profile = new Schema({
-    username: {
-        type: String,
-        required: true
-    },
     firstname: {
         type: String,
         default: '',
