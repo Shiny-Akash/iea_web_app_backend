@@ -1,6 +1,6 @@
 const express = require('express');
-const authorise = require('../middlewares/auth');
-const { Profile } = require('../models/profile')
+const authorise = require('../_middlewares/auth');
+const { Profile } = require('../_models/profile')
 
 const profileRouter = express.Router();
 

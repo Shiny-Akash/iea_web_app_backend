@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
-const {Accounts , validate} = require('../models/accounts');
-const { Profile } = require('../models/profile')
+const {Accounts , validate} = require('../_models/accounts');
+const { Profile } = require('../_models/profile')
 
 const accountRouter = express.Router();
 

@@ -1,6 +1,6 @@
-const authorise = require('../middlewares/auth')
-const { verificationToken } = require('../models/verificationToken')
-const { Profile } = require('../models/profile')
+const authorise = require('../_middlewares/auth')
+const { verificationToken } = require('../_models/verificationToken')
+const { Profile } = require('../_models/profile')
 
 const express = require('express');
 const crypto = require('crypto');
@@ -46,7 +46,7 @@ mailRouter.get('/verify/:token', (req, res) => {
     let token = req.params.token;
     verificationToken.findOne({token}, (err, data) => {
         if (!data) {
-            return res.render('message', { message: 'Invalid Token '});
+            return res.status(400).render('message', { message: 'Invalid Token '});
         }
         let username = data.username;
         Profile.findOne({username}, (err, profiledata) => {
