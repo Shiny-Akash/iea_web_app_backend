@@ -10,7 +10,7 @@ const usersRouter = require('./routes/users');
 const accountRouter = require('./routes/account');
 const forumRouter = require('./routes/discussionforum');
 const profileRouter = require('./routes/profile');
-const mailRouter = require('./_services/emailVerification')
+const mailRouter = require('./_services/emailVerification');
 
 mongoose.connect('mongodb://localhost/akash', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB...'))

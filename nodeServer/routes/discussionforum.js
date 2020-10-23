@@ -1,5 +1,5 @@
 const express = require('express');
-const authorise = require('../_middlewares/auth');
+const {authorise} = require('../_middlewares/auth');
 const { Post, Like, Comment } = require('../_models/post');
 
 const forumRouter = express.Router();

@@ -1,4 +1,4 @@
-const authorise = require('../_middlewares/auth')
+const {authorise} = require('../_middlewares/auth')
 const { verificationToken } = require('../_models/verificationToken')
 const { Profile } = require('../_models/profile')
 const { User } = require('../_models/user')

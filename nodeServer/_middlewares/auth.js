@@ -13,8 +13,8 @@ const authorise = (req, res, next) => {
         }
 
         req.username = payload.username;
-        next();
+        next()
     })
 }
 
-module.exports = authorise;
+module.exports.authorise = authorise;
