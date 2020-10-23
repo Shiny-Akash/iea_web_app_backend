@@ -12,7 +12,7 @@ profileRouter.get('/:username', authorise, async (req, res) => {
     })
 })
 
-profileRouter.patch('/:username', authorise, async (req, res) => {
+profileRouter.post('/:username', authorise, async (req, res) => {
     let profile = req.body.profile;
     const user = await User.findOne({ username: req.params.username });
     await Profile.updateOne({ _id: user.profileId }, profile, (err, data) => {

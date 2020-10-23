@@ -46,7 +46,7 @@ accountRouter.post("/login", async(req, res)=>{
     let isMatch = await bcrypt.compare(password, account.password)
     if(!isMatch) return res.status(400).json({"message":"Incorrect Password"})
 
-    let token = jwt.sign({ username }, 'mysecret', { expiresIn: '1h'});
+    let token = jwt.sign({ username }, 'mysecret', { expiresIn: '1d'});
     res.json({token, username});
 })
 
