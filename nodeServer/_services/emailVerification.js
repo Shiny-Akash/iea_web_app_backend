@@ -1,4 +1,4 @@
-const {authorise} = require('../_middlewares/auth')
+const { authorise } = require('../_middlewares/auth')
 const { verificationToken } = require('../_models/verificationToken')
 const { Profile } = require('../_models/profile')
 const { User } = require('../_models/user')
@@ -10,8 +10,13 @@ const nodemailer = require('nodemailer');
 const mailRouter = express.Router();
 
 mailRouter.post('/send/:username', authorise, async (req, res) => {
-    const { emailid } = req.body.profile;
+    const { emailid } = req.body;
     const username = req.params.username;
+
+    user = Profile.findOne({emailid})
+    if (user) {
+      return res.status(400).json({message: "email id already registered !"});
+    }
     
     let token = crypto.randomBytes(16).toString('hex');
     const vertoken = new verificationToken({
