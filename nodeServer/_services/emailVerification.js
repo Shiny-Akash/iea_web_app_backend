@@ -13,8 +13,10 @@ mailRouter.post('/send/:username', authorise, async (req, res) => {
     const { emailid } = req.body;
     const username = req.params.username;
 
-    user = Profile.findOne({emailid})
-    if (user) {
+    user = User.findOne({username})
+    userProfile = Profile.findOne({emailid})
+
+    if (userProfile && user.profileId != userProfile._id) {
       return res.status(400).json({message: "email id already registered !"});
     }
     
@@ -52,13 +54,16 @@ mailRouter.post('/send/:username', authorise, async (req, res) => {
 mailRouter.get('/verify/:token', async (req, res) => {
     let token = req.params.token;
     var username = ''
+    done = false;
     await verificationToken.findOne({token}, (err, data) => {
-        if (!data) {
+        if (!data || err) {
+            done = true;
             return res.status(400).render('message', { message: 'Invalid Token '});
         }
         username = data.username;
     })
-
+    if (done) return;
+    
     var user;
     await User.findOne({ username: username }, (err, data) => user = data);
     await Profile.findOne({ _id: user.profileId }, (err, profiledata) => {

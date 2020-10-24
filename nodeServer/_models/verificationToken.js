@@ -8,8 +8,8 @@ var verificationToken = new Schema({
     token: {
         type: String,
         required: true,
-        expires: '10m'
-    }
+    },
+    createdAt: { type: Date, default: Date.now, index: { expires: "5m"} }
 })
 
 module.exports.verificationToken = model('VerificationToken', verificationToken);
